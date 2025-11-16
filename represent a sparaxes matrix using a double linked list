@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct node {
+    int row, col, data;
+    struct node *next;
+    struct node *prev;
+};
+
+typedef struct node *NODE;
+
+NODE insertend(NODE start, int row, int col, int item) {
+    NODE temp, cur;
+
+    temp = (NODE)malloc(sizeof(struct node));
+    temp->row = row;
+    temp->col = col;
+    temp->data = item;
+    temp->next = NULL;
+    temp->prev = NULL;
+
+    if (start == NULL) {
+        return temp;
+    }
+
+    cur = start;
+    while (cur->next != NULL) {
+        cur = cur->next;
+    }
+
+    cur->next = temp;
+    temp->prev = cur;
+
+    return start;
+}
+
+void printList(NODE start) {
+    NODE cur = start;
+    printf("Row  Col  Data\n");
+    while (cur != NULL) {
+        printf("%3d  %3d  %4d\n", cur->row, cur->col, cur->data);
+        cur = cur->next;
+    }
+}
+
+int main() {
+    NODE start = NULL;
+
+    start = insertend(start, 0, 1, 5);
+    start = insertend(start, 2, 3, 10);
+    start = insertend(start, 4, 0, 7);
+
+    printList(start);
+
+    return 0;
+}
